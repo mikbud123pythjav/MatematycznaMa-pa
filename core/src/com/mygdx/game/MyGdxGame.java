@@ -20,7 +20,7 @@ public class MyGdxGame extends ApplicationAdapter implements MechanicsInterface 
 	float timeSeconds = 0f;
 	private float period = 1f;
 	private MyGdxGame game;
-	private MainMenuScreen mainMenuScreen;
+//	private MainMenuScreen mainMenuScreen;
 	private Random bananaX;
 	private Random bananaY;
 	
@@ -32,7 +32,6 @@ public class MyGdxGame extends ApplicationAdapter implements MechanicsInterface 
 		Gdx.input.setInputProcessor(stage);
 		batch = new SpriteBatch();
 		game = new MyGdxGame();
-		this.s
 	}
 
 	@Override
@@ -42,20 +41,7 @@ public class MyGdxGame extends ApplicationAdapter implements MechanicsInterface 
 			timeSeconds -= period;
 			handleEventBanana();
 		}
-		mainMenuScreen.dispose();
-
-
-
-//		if(){
-//
-//		}
-
-
-
-
-
-
-
+//		mainMenuScreen.dispose();
 
 		Gdx.gl.glClearColor(1, 1, 1, 0);
 		ScreenUtils.clear(1, 1, 1, 0);
