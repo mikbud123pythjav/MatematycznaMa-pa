@@ -1,2 +1,2 @@
-# MatematycznaMa-pa
+# MatematycznaMałpa
 gra edukacyjna matematyczna małpa
