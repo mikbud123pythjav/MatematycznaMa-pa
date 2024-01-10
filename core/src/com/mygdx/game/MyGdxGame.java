@@ -1,96 +1,96 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.screens.GameOverScreen;
+import com.mygdx.game.screens.MainGameScreen;
+import com.mygdx.game.screens.MainMenuScreen;
+import com.mygdx.game.tools.GameCamera;
+import com.mygdx.game.tools.ScrollingBackground;
 
-import java.util.Random;
+/**
+ * Klasa odpowiedzialna za przebieg gry, dziedzicząca po głównej klasie frameworka LibGdx "Game".
+ */
+public class MyGdxGame extends Game {
 
-public class MyGdxGame extends ApplicationAdapter implements MechanicsInterface {
-	Stage stage;
-	SpriteBatch batch;
-	Texture player;
-	Texture banan;
-	float Speed = 150.0f;
-	float playerx = 0;
-	float playery = 0;
-	float timeSeconds = 0f;
-	private float period = 1f;
-	private MyGdxGame game;
-//	private MainMenuScreen mainMenuScreen;
-	private Random bananaX;
-	private Random bananaY;
-	
+	/**
+	 * Szerokość ekranu gry.
+	 */
+	public static final int WIDTH = 1024;
+
+	/**
+	 * Wysokość ekranu gry.
+	 */
+	public static final int HEIGHT = 768;
+
+	/**
+	 * Flaga określająca, czy gra jest uruchomiona na urządzeniu mobilnym.
+	 */
+	public static boolean IS_MOBILE = false;
+
+	/**
+	 * Czas trwania gry.
+	 */
+	public static float TIME;
+
+	/**
+	 * Aktualny wynik gry.
+	 */
+	public static int SCORE;
+
+	/**
+	 * Aktualny poziom gry.
+	 */
+	public static int LEVEL;
+
+	/**
+	 * Kamera używana w grze.
+	 */
+	public GameCamera cam;
+
+	/**
+	 * Tło poruszające się w grze.
+	 */
+	public ScrollingBackground scrollingBackground;
+
+	/**
+	 * Batch do rysowania obiektów gry.
+	 */
+	public SpriteBatch batch;
+
+	/**
+	 * Metoda inicjująca grę, tworząca obiekt SpriteBatch, kamerę oraz ustawiająca ekran na menu główne.
+	 */
 	@Override
 	public void create () {
-		banan = new Texture("Banan_preview_rev_1.png");
-		player = new Texture("malpka_preview_rev_1.png");
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
 		batch = new SpriteBatch();
-		game = new MyGdxGame();
+		cam = new GameCamera(WIDTH, HEIGHT);
+		this.scrollingBackground = new ScrollingBackground();
+		this.setScreen(new MainMenuScreen(this));
 	}
 
+	/**
+	 * Metoda renderująca grę, ustawiająca macierz projekcyjną oraz wywołująca renderowanie ekranu.
+	 */
 	@Override
 	public void render () {
-		timeSeconds += Gdx.graphics.getDeltaTime();
-		if(timeSeconds > period){
-			timeSeconds -= period;
-			handleEventBanana();
-		}
-//		mainMenuScreen.dispose();
-
-		Gdx.gl.glClearColor(1, 1, 1, 0);
-		ScreenUtils.clear(1, 1, 1, 0);
-		batch.begin();
-		stage.draw();
-		batch.draw(banan, 100, 100);
-		batch.draw(player, playerx, playery);
-		if(Gdx.input.isKeyPressed(Input.Keys.W)){
-			System.out.printf("W\n");
-			playery += Gdx.graphics.getDeltaTime()*Speed;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.S)){
-			System.out.printf("S\n");
-			playery -= Gdx.graphics.getDeltaTime()*Speed;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.A)){
-			System.out.printf("A\n");
-			playerx -= Gdx.graphics.getDeltaTime()*Speed;
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)){
-			System.out.printf("D\n");
-			playerx += Gdx.graphics.getDeltaTime()*Speed;
-		}
-		batch.end();
+		batch.setProjectionMatrix(cam.combined());
+		super.render();
 	}
-	
+
+	/**
+	 * Metoda pozwalająca na zmianę rozmiaru ekranu gry.
+	 *
+	 * @param width  nowa szerokość w pikselach
+	 * @param height nowa wysokość w pikselach
+	 */
 	@Override
-	public void dispose () {
-		batch.dispose();
+	public void resize(int width, int height) {
+		cam.update(width, height);
+		super.resize(width, height);
 	}
 
-	public void handleEventBanana() {
-//		bananaX = (r.nextInt(1840));
-//		bananaY = (r.nextInt(1000));
-//		batch.draw(banan, (Integer)bananaX, bananaY);
-//		balloon.x = rand_x;
-//		balloon.y = rand_y;
-//		System.out.println("deneme");
-	}
-	public void catchBananaEvent(){
-
-	}
-
-	public void handleEventQuestion() {
-
-	}
-	public void handleEvenetAnswerQuestion(){
-
-	}
 }
-
-
